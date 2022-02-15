@@ -5,28 +5,46 @@ import jsonpickle
 class RuleEngine:
     def __init__(self):
         self.rules = []
+    
     def addRule(self, rule):
         self.rules.append(rule) 
-    def prepare(self,rule,telemetry):
-         if (rule.condition.operator == "EQ" or rule.condition.operator == "GT"  or rule.condition.operator == "LT" ):
-           if (rule.condition.right.startswith("{{")):
-                variable = rule.condition.right.replace("{{","")
+    
+    def prepare(self,condition,telemetry):
+        if (condition.operator == "EQ" or condition.operator == "GT"  or condition.operator == "LT" ):
+           if (condition.right.startswith("{{")):
+                variable = condition.right.replace("{{","")
                 variable = variable.replace("}}","")
                 variable = variable.replace("telemetry.","")
                 #print ("variable = "+variable)
                 value = telemetry.get(variable)
-                rule.condition.right = value    
+                condition.right = value
+        elif (condition.operator == "AND"):
+            for condition in condition.andconditions:
+                self.prepare(condition,telemetry)
+        elif (condition.operator == "OR"):
+            for condition in condition.orconditions:
+                self.prepare(condition,telemetry)
     
-    def eval(self,rule):
-        if (rule.condition.operator == "EQ"):
-            if (rule.condition.right == rule.condition.left):
+    def eval(self,condition):
+        if (condition.operator == "EQ"):
+            if (condition.right == condition.left):
                 return True
-        elif (rule.condition.operator == "GT"):
-                if (rule.condition.right > rule.condition.left):
+        elif (condition.operator == "GT"):
+                if (condition.right > int(condition.left)):
                     return True 
-        elif (rule.condition.operator == "LT"):
-                if (rule.condition.right < rule.condition.left):
-                    return True    
+        elif (condition.operator == "LT"):
+                if (condition.right < condition.left):
+                    return True 
+        elif (condition.operator == "AND"):
+            for  cond in condition.andconditions:
+                if (self.eval(cond) != True):
+                    return False
+            return True   
+        elif (condition.operator == "OR"):
+            for cond in condition.orconditions:
+                if (self.eval(cond)):
+                    return True
+            return false    
         return False
 
        
@@ -43,8 +61,8 @@ class RuleEngine:
         for rule in self.rules:
            copy_rule = copy.deepcopy(rule) 
            if (self.match_scope(copy_rule,telemetry)):
-                self.prepare(copy_rule,telemetry)
-                if (self.eval(copy_rule)):
+                self.prepare(copy_rule.condition,telemetry)
+                if (self.eval(copy_rule.condition)):
                         maching_rules.append(rule)
         return maching_rules
     

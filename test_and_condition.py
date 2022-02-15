@@ -8,14 +8,18 @@ from scope import Scope
 
 
 def initialize(rule_engine):
-    condition = Condition(expression="{{telemetry.temperature}} > {{threshold}}")
+    andconditions = [
+            Condition(expression="{{telemetry.temperature}} > {{temperature_threshold}}"),
+            Condition(expression="{{telemetry.humidity}} > {{humidity_threshold}}")]
+    condition = Condition(andconditions=andconditions)
     action = Action("DISPLAY", {})
     
     scope = Scope()
     scope.add("season","SUMMER")
     rule_template = RuleTemplate(scope=scope, condition=condition, action=action)
     data = Data()
-    data.add("threshold",98)
+    data.add("temperature_threshold",98)
+    data.add("humidity_threshold",50)
     rule = Rule("Rule-Summer-Weather-rule",rule_template, data)
     rule_engine.addRule(rule)  
 
@@ -24,7 +28,8 @@ def initialize(rule_engine):
     scope.add("season","WINTER")
     rule_template = RuleTemplate(scope=scope, condition=condition, action=action)
     data = Data()
-    data.add("threshold",70)
+    data.add("temperature_threshold",70)
+    data.add("humidity_threshold",50)
     rule = Rule("Rule-Winter-Weather-rule",rule_template, data)
     rule_engine.addRule(rule)  
     
@@ -34,6 +39,7 @@ def test1(rule_engine):
     telemetry = Data()
     telemetry.add("season", "WINTER")
     telemetry.add("temperature", 60)
+    telemetry.add("humidity", 60)
     rule_engine.process(telemetry)
     print("===== End ======\n\n")
 
@@ -42,6 +48,7 @@ def test2(rule_engine):
     telemetry = Data()
     telemetry.add("season", "WINTER")
     telemetry.add("temperature", 80)
+    telemetry.add("humidity", 60)
     rule_engine.process(telemetry)
     print("===== End ======\n\n")
 
@@ -50,6 +57,7 @@ def test3(rule_engine):
     telemetry = Data()
     telemetry.add("season", "SUMMER")
     telemetry.add("temperature", 100)
+    telemetry.add("humidity", 70)
     rule_engine.process(telemetry)
     print("===== End ======\n\n")
     

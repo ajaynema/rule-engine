@@ -11,7 +11,8 @@ class Condition:
             self.operator = "LT"
        self.left = tokens[2]
        
-    def __init__(self,right=None, operator=None, left=None , expression=None):
+    def __init__(self,right=None, operator=None, left=None , 
+                  expression=None, andconditions=None, orconditions=None):
        self.expression = expression
        self.left = left
        self.right = right
@@ -19,7 +20,22 @@ class Condition:
        self.variables = None
        if (expression != None) :
           self.prepare_from_expression()
+       self.andconditions = andconditions
+       self.orconditions = orconditions
+       if (self.andconditions != None):
+          self.operator = "AND"
+       if (self.orconditions != None):
+          self.operator = "OR"
+          
     
     def to_string(self):
-       return str(self.right)+" "+self.operator+" "+str(self.left) 
+       if (self.operator == "AND"):
+          _str = "and ["
+          for condition in self.andconditions :
+            _str = _str + condition.to_string()+", " 
+          _str = _str+"] "
+          return _str
+       else:
+         return str(self.right)+" "+self.operator+" "+str(self.left) 
+
     
