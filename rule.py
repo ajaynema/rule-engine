@@ -12,6 +12,7 @@ class Rule:
             if (condition.left.startswith("{{")):
                 variable = condition.left.replace("{{","")
                 variable = variable.replace("}}","")
+                variable = variable.replace("rule.","")
                 print("variable="+variable)
                 value = self.variables.get(variable)
                 condition.left = value

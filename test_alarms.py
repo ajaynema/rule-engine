@@ -8,7 +8,7 @@ from scope import Scope
 
 
 def initialize(rule_engine):
-    condition = Condition("{{telemetry.messageId}}" , "EQ", "{{messageId}}")
+    condition = Condition("{{telemetry.messageId}}" , "EQ", "{{rule.messageId}}")
     action = Action("REPORT_ALARM", {})
     
     

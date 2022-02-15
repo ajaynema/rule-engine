@@ -9,8 +9,8 @@ from scope import Scope
 
 def initialize(rule_engine):
     andconditions = [
-            Condition(expression="{{telemetry.temperature}} > {{temperature_threshold}}"),
-            Condition(expression="{{telemetry.humidity}} > {{humidity_threshold}}")]
+            Condition(expression="{{telemetry.temperature}} > {{rule.temperature_threshold}}"),
+            Condition(expression="{{telemetry.humidity}} > {{rule.humidity_threshold}}")]
     condition = Condition(andconditions=andconditions)
     action = Action("REPORT_ALARM", {})
     

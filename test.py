@@ -8,7 +8,7 @@ from scope import Scope
 
 
 def initialize(rule_engine):
-    condition = Condition(expression="{{telemetry.temperature}} > {{threshold}}")
+    condition = Condition(expression="{{telemetry.temperature}} > {{rule.threshold}}")
     action = Action("DISPLAY", {})
     
     scope = Scope()
