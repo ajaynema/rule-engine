@@ -53,12 +53,22 @@ class RuleEngine:
     
     def do_print(self,rule,telemetry):
         print("Action=PRINT")
+    
+    def do_report_alarm(self,rule,telemetry):
+        print("Action=Stroing Alarm in DB")
+    
+    def do_send_email(self,rule,telemetry):
+        print("Action=Sending Email")
 
     def do_action(self,rule,telemetry):
         if (rule.action.action == "DISPLAY"):
             self.do_display(rule,telemetry)
         elif(rule.action.action == "PRINT"): 
-            self.do_print(rule,telemetry)   
+            self.do_print(rule,telemetry)  
+        elif(rule.action.action == "REPORT_ALARM"): 
+            self.do_report_alarm(rule,telemetry) 
+        elif(rule.action.action == "SEND_EMAIL"): 
+            self.do_send_email(rule,telemetry)  
 
     def process(self, telemetry):
         matching_rules =  self.get_matching_rules(telemetry)
