@@ -48,12 +48,25 @@ class RuleEngine:
                         maching_rules.append(rule)
         return maching_rules
     
+    def do_display(self,rule,telemetry):
+        print("Action=DISPLAY")
+    
+    def do_print(self,rule,telemetry):
+        print("Action=PRINT")
+
+    def do_action(self,rule,telemetry):
+        if (rule.action.action == "DISPLAY"):
+            self.do_display(rule,telemetry)
+        elif(rule.action.action == "PRINT"): 
+            self.do_print(rule,telemetry)   
+
     def process(self, telemetry):
         matching_rules =  self.get_matching_rules(telemetry)
         if (len(matching_rules) > 0):
             print("found " + str(len(matching_rules)) + " maching rules rules")
             for rule  in matching_rules:
                 print("Rule="+rule.name)
+                self.do_action(rule,telemetry)
         else:
             print("no matching rule found ")
   

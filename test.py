@@ -10,6 +10,8 @@ from scope import Scope
 def initialize(rule_engine):
     condition = Condition("{{telemetry.temperature}}" , "GT", "{{threshold}}")
     action = Action("DISPLAY", {})
+    
+    
     scope = Scope()
     scope.add("season","SUMMER")
     rule_template = RuleTemplate(scope=scope, condition=condition, action=action)
@@ -18,6 +20,7 @@ def initialize(rule_engine):
     rule = Rule("Rule-Summer-Weather-rule",rule_template, data)
     rule_engine.addRule(rule)  
 
+    action = Action("PRINT", {})
     scope = Scope()
     scope.add("season","WINTER")
     rule_template = RuleTemplate(scope=scope, condition=condition, action=action)
