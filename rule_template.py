@@ -1,6 +1,7 @@
 class RuleTemplate:
-    def __init__(self, scope, name, condition, action):
+    def __init__(self, name=None, scope=None, condition=None, action=None):
        self.name = name
        self.scope = scope
        self.condition = condition
        self.action = action
+    

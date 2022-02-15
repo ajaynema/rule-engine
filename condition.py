@@ -1,6 +1,6 @@
 class Condition:
-    def __init__(self,left, operator, right):
-       self.expression = None
+    def __init__(self,left=None, operator=None, right=None , expression=None):
+       self.expression = expression
        self.left = left
        self.right = right
        self.operator = operator
