@@ -12,7 +12,7 @@ def initialize(rule_engine):
             Condition(expression="{{telemetry.temperature}} > {{temperature_threshold}}"),
             Condition(expression="{{telemetry.humidity}} > {{humidity_threshold}}")]
     condition = Condition(andconditions=andconditions)
-    action = Action("DISPLAY", {})
+    action = Action("REPORT_ALARM", {})
     
     scope = Scope()
     scope.add("season","SUMMER")
@@ -23,7 +23,7 @@ def initialize(rule_engine):
     rule = Rule("Rule-Summer-Weather-rule",rule_template, data)
     rule_engine.addRule(rule)  
 
-    action = Action("PRINT", {})
+    action = Action("SEND_EMAIL", {})
     scope = Scope()
     scope.add("season","WINTER")
     rule_template = RuleTemplate(scope=scope, condition=condition, action=action)
