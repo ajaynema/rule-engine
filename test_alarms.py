@@ -18,7 +18,7 @@ def initialize(rule_engine):
     data = Data()
     data.add("messageId",301)
     rule = Rule("301-message-rule",rule_template, data)
-    rule_engine.addRule(rule)  
+    rule_engine.add_rule(rule)  
 
     action = Action("SEND_EMAIL", {})
     scope = Scope()
@@ -27,7 +27,8 @@ def initialize(rule_engine):
     data = Data()
     data.add("messageId",201)
     rule = Rule("201-message-rule",rule_template, data)
-    rule_engine.addRule(rule)  
+    rule_engine.add_rule(rule)  
+
     
 
 def test1(rule_engine):

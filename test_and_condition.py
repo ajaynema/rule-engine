@@ -5,6 +5,8 @@ from rule_engine import RuleEngine
 from rule import Rule
 from data import Data
 from scope import Scope
+from action_handler_send_email import SendEmailHandler
+from action_handler_report_alarm import ReportAlarmHandler
 
 
 def initialize(rule_engine):
@@ -21,7 +23,8 @@ def initialize(rule_engine):
     data.add("temperature_threshold",98)
     data.add("humidity_threshold",50)
     rule = Rule("Rule-Summer-Weather-rule",rule_template, data)
-    rule_engine.addRule(rule)  
+    rule_engine.add_rule(rule)  
+
 
     action = Action("SEND_EMAIL", {})
     scope = Scope()
@@ -31,7 +34,11 @@ def initialize(rule_engine):
     data.add("temperature_threshold",70)
     data.add("humidity_threshold",50)
     rule = Rule("Rule-Winter-Weather-rule",rule_template, data)
-    rule_engine.addRule(rule)  
+    rule_engine.add_rule(rule)  
+
+    rule_engine.add_handler(ReportAlarmHandler())
+    rule_engine.add_handler(SendEmailHandler())
+    
     
 
 def test1(rule_engine):

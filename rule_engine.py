@@ -1,14 +1,24 @@
 import copy
 import json
 import jsonpickle
+from action_handler_report_alarm import ReportAlarmHandler
+from action_handler_send_email import SendEmailHandler
+
 
 class RuleEngine:
     def __init__(self):
         self.rules = []
+        self.handlers = {}
     
-    def addRule(self, rule):
+    def add_rule(self, rule):
         self.rules.append(rule) 
     
+    def add_handler(self, handler):
+        name = handler.get_name()
+        self.handlers[name] = handler
+
+    def get_handler(self, action):
+        return self.handlers[action]
     def prepare(self,condition,telemetry):
         if (condition.operator == "EQ" or condition.operator == "GT"  or condition.operator == "LT" ):
            if (condition.right.startswith("{{")):
@@ -71,22 +81,16 @@ class RuleEngine:
     
     def do_print(self,rule,telemetry):
         print("Action=PRINT")
-    
-    def do_report_alarm(self,rule,telemetry):
-        print("Action=Stroing Alarm in DB")
-    
-    def do_send_email(self,rule,telemetry):
-        print("Action=Sending Email")
 
     def do_action(self,rule,telemetry):
-        if (rule.action.action == "DISPLAY"):
+        handler = self.handlers[rule.action.action]
+        if (handler != None):
+            handler.process(rule,telemetry)
+        elif (rule.action.action == "DISPLAY"):
             self.do_display(rule,telemetry)
         elif(rule.action.action == "PRINT"): 
             self.do_print(rule,telemetry)  
-        elif(rule.action.action == "REPORT_ALARM"): 
-            self.do_report_alarm(rule,telemetry) 
-        elif(rule.action.action == "SEND_EMAIL"): 
-            self.do_send_email(rule,telemetry)  
+       
 
     def process(self, telemetry):
         matching_rules =  self.get_matching_rules(telemetry)

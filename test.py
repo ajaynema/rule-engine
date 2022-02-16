@@ -9,7 +9,7 @@ from scope import Scope
 
 def initialize(rule_engine):
     condition = Condition(expression="{{telemetry.temperature}} > {{rule.threshold}}")
-    action = Action("DISPLAY", {})
+    action = Action("SEND_EMAIL", {})
     
     scope = Scope()
     scope.add("season","SUMMER")
@@ -17,16 +17,16 @@ def initialize(rule_engine):
     data = Data()
     data.add("threshold",98)
     rule = Rule("Rule-Summer-Weather-rule",rule_template, data)
-    rule_engine.addRule(rule)  
+    rule_engine.add_rule(rule)  
 
-    action = Action("PRINT", {})
+    action = Action("REPORT_ALARM", {})
     scope = Scope()
     scope.add("season","WINTER")
     rule_template = RuleTemplate(scope=scope, condition=condition, action=action)
     data = Data()
     data.add("threshold",70)
     rule = Rule("Rule-Winter-Weather-rule",rule_template, data)
-    rule_engine.addRule(rule)  
+    rule_engine.add_rule(rule)  
     
 
 def test1(rule_engine):
