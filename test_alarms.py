@@ -5,6 +5,8 @@ from rule_engine import RuleEngine
 from rule import Rule
 from data import Data
 from scope import Scope
+from action_handler_send_email import SendEmailHandler
+from action_handler_report_alarm import ReportAlarmHandler
 
 
 def initialize(rule_engine):
@@ -28,6 +30,8 @@ def initialize(rule_engine):
     data.add("messageId",201)
     rule = Rule("201-message-rule",rule_template, data)
     rule_engine.add_rule(rule)  
+    rule_engine.add_handler(ReportAlarmHandler())
+    rule_engine.add_handler(SendEmailHandler())    
 
     
 

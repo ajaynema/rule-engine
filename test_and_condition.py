@@ -8,7 +8,6 @@ from scope import Scope
 from action_handler_send_email import SendEmailHandler
 from action_handler_report_alarm import ReportAlarmHandler
 
-
 def initialize(rule_engine):
     andconditions = [
             Condition(expression="{{telemetry.temperature}} > {{rule.temperature_threshold}}"),

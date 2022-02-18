@@ -65,6 +65,5 @@ def main():
      test2(rule_engine)
      test3(rule_engine)
      
-
 if __name__=="__main__":
     main()
