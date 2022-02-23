@@ -1,5 +1,6 @@
 import copy
 import json
+from re import template
 import jsonpickle
 from action_handler_report_alarm import ReportAlarmHandler
 from action_handler_send_email import SendEmailHandler
@@ -12,6 +13,9 @@ class RuleEngine:
         self.templates = {}
        
     def add_rule(self, rule):
+        if rule.get_template_name() != None:
+            template = self.get_template(rule.get_template_name())
+            rule.set_template(template)
         self.rules.append(rule) 
     
     def add_template(self, template):

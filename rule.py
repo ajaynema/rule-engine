@@ -1,6 +1,24 @@
 import copy
-
+from rule_data import RuleData
 class Rule:
+    def load_from_json(self, json_rule):
+        self.name = json_rule.get("name")
+        self.template_name =  json_rule.get("template")
+        json_variables = json_rule.get('variables')
+        self.variables = RuleData()
+        for key in json_variables:
+            self.variables.add(key,json_variables.get(key))
+               
+    def get_name(self):
+        return self.name
+
+    def get_template_name(self):
+        return self.template_name
+
+    def set_template(self,template):
+        self.template = copy.deepcopy(template)
+        self.prepare()        
+    
     def replace_variables(self, condition):
         if (condition.operator == "AND"):
             for cond in condition.andconditions:
@@ -29,13 +47,19 @@ class Rule:
     def to_string(self):
         print("condition=" + self.condition.to_string()+"action="+action.to_string())
             
-    def __init__(self,name, template, variables):
+    def __init__(self,name=None, template=None, variables=None, json_rule=None):
        self.name = name
-       self.template = copy.deepcopy(template)
-       self.variables = variables
-       self.prepare()
+       self.scope = None
+       self.template_name = None
+       self.template = None
        self.andrules = None
-    
-    
-
+       self.variables = None
        
+       if (json_rule != None) :
+           self.load_from_json(json_rule)
+       else:
+            self.template = copy.deepcopy(template)
+            self.variables = variables
+            self.andrules = None
+            self.prepare()
+    
