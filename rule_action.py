@@ -1,5 +1,5 @@
-class Action:
-    def __init__(self, action , data):
+class RuleAction:
+    def __init__(self, action , data=None):
        self.action = action
        self.data  = data
     

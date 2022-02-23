@@ -1,7 +1,7 @@
 import json
 import jsonpickle
 
-class Data (object):
+class RuleScope (object):
     
     def __init__(self):
         self.data = {}

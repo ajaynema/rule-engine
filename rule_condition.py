@@ -1,4 +1,4 @@
-class Condition:
+class RuleCondition:
     def prepare_from_expression(self):
        tokens = self.expression.split(" ")
        self.right = tokens[0]

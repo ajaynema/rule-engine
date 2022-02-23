@@ -9,9 +9,16 @@ class RuleEngine:
     def __init__(self):
         self.rules = []
         self.handlers = {}
-    
+        self.templates = {}
+       
     def add_rule(self, rule):
         self.rules.append(rule) 
+    
+    def add_template(self, template):
+        self.templates[template.get_name()] =  template
+    
+    def get_template(self, template_name):
+        return self.templates[template_name]
     
     def add_handler(self, handler):
         name = handler.get_name()
@@ -54,7 +61,7 @@ class RuleEngine:
             for cond in condition.orconditions:
                 if (self.eval(cond)):
                     return True
-            return false    
+            return False    
         return False
 
        

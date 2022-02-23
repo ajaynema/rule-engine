@@ -1,10 +1,10 @@
-from condition import Condition
-from action import Action
+from rule_condition import Condition
+from rule_action import Action
 from rule_template import RuleTemplate
 from rule_engine import RuleEngine
 from rule import Rule
-from data import Data
-from scope import Scope
+from rule_data import Data
+from rule_scope import Scope
 from action_handler_send_email import SendEmailHandler
 from action_handler_report_alarm import ReportAlarmHandler
 
