@@ -3,13 +3,13 @@ Rule Engine for applying the rules on data stream.
 
 Usage :
 
-Steps 1 : Define the template in json.
-Steap 2 : Register the template with rule engine
-Step  3 : Define rule using template
-Step  4 : Register rule with rule engine
-Step  5 : Implement action handler
-Step  5 : Register handler with Rule Engine
-Step  5 : Now Rule engine ready to apply rule give data to rule enfine 
+Step 1 : Define the template in json.
+Step 2 : Register the template with rule engine
+Step 3 : Define rule using template
+Step 4 : Register rule with rule engine
+Step 5 : Implement action handler
+Step 6 : Register handler with Rule Engine
+Step 7 : Now Rule engine ready to apply rule give data to rule engine 
 
 Example
 Templete :
