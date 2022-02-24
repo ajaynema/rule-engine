@@ -23,7 +23,21 @@ Templete :
         },
         "action" : {
             "action" :  "SEND_EMAIL"
-        }
+        },
+        variables : [
+            {
+                "name" : "rule.deviceType",
+                "type" : "string"
+            },
+            {
+                "name" : "telemetry.messageId",
+                "type" : "string"
+            },
+            {
+                "name" : "rule.messageId",
+                "type" : "string"
+            }
+        ],
     }
 
 Rule :
