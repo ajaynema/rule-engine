@@ -10,7 +10,6 @@ from action_handler_send_email import SendEmailHandler
 from action_handler_report_alarm import ReportAlarmHandler
 
 
-
 def initialize(rule_engine):
     json = { "name" : "alarm_rule_template","scope" : {"deviceType" : "pitlid"},"condition" : { "expression" :  "{{telemetry.messageId}} = {{rule.messageId}}"},"action" : {"action" :  "SEND_EMAIL"}}
     rule_template = RuleTemplate(json_template=json)
