@@ -36,7 +36,17 @@ class Rule:
                 condition.left = value
                 print("value="+str(value))
                 print(condition.to_string())
-       
+        if (self.scope != None):
+                for key in self.scope.getData():
+                    scope_value = self.scope.get(key)
+                    if (scope_value.startswith("{{")):
+                         variable = scope_value.replace("{{","")
+                         variable = variable.replace("}}","")
+                         variable = variable.replace("rule.","")
+                         value = self.variables.get(variable)
+                         self.scope.set(variable, value)
+
+
     def prepare(self):
         self.condition = self.template.condition
         self.action = self.template.action

@@ -11,10 +11,10 @@ from action_handler_report_alarm import ReportAlarmHandler
 
 
 def initialize(rule_engine):
-    json = { "name" : "alarm_rule_template","scope" : {"deviceType" : "pitlid"},"condition" : { "expression" :  "{{telemetry.messageId}} = {{rule.messageId}}"},"action" : {"action" :  "SEND_EMAIL"}}
+    json = { "name" : "alarm_rule_template","scope" : {"deviceType" : "{{deviceType}}"},"condition" : { "expression" :  "{{telemetry.messageId}} = {{rule.messageId}}"},"action" : {"action" :  "SEND_EMAIL"}}
     rule_template = RuleTemplate(json_template=json)
     rule_engine.add_template(rule_template)
-    json_rule_301 ={"name" : "pitlid_301_rule","template" :"alarm_rule_template","variables" : {"messageId" : "301"}}
+    json_rule_301 ={"name" : "pitlid_301_rule","template" :"alarm_rule_template","variables" : {"messageId" : "301","deviceType": "pitlid"}}
     rule_301 = Rule(json_rule=json_rule_301)
     rule_engine.add_rule(rule_301)
 

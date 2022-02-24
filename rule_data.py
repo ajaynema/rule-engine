@@ -12,6 +12,9 @@ class RuleData (object):
     def get(self, key) :
         return self.data[key] 
     
+    def set(self, key,value) :
+        self.data[key] = value
+   
     def getData(self):
         return self.data
     
