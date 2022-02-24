@@ -51,11 +51,12 @@ class Rule:
         self.condition = self.template.condition
         self.action = self.template.action
         self.scope = self.template.scope
+        self.variable_mete_data = self.template.variable_metadata
         self.replace_variables(self.condition)
         print("Rule Prepare : " + self.condition.to_string())
     
     def to_string(self):
-        print("condition=" + self.condition.to_string()+"action="+action.to_string())
+        print("condition=" + self.condition.to_string()+"action="+self.action.to_string())
             
     def __init__(self,name=None, template=None, variables=None, json_rule=None):
        self.name = name

@@ -24,7 +24,7 @@ Templete :
         "action" : {
             "action" :  "SEND_EMAIL"
         },
-        variables : [
+        "variable_metedata" : [
             {
                 "name" : "rule.deviceType",
                 "type" : "string"
@@ -37,7 +37,7 @@ Templete :
                 "name" : "rule.messageId",
                 "type" : "string"
             }
-        ],
+        ]
     }
 
 Rule :
