@@ -115,7 +115,7 @@ class RuleEngine:
             elif(rule.action.action == "PRINT"): 
                 self.do_print(rule,telemetry)  
         if (rule.actions != None):
-            for action in self.actions:
+            for action in rule.actions:
                 handler = self.handlers[action.action]
                 if (handler != None):
                     self.prepare_action(rule=rule,action=action,telemetry=telemetry)

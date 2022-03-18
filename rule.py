@@ -58,7 +58,7 @@ class Rule:
         if (self.actions != None):
                 for action in self.actions:
                     for key in action.getData().getData():
-                        data_value = action.getData.get(key)
+                        data_value = action.getData().get(key)
                         if (data_value.startswith("{{")):
                             variable = data_value.replace("{{","")
                             variable = variable.replace("}}","")

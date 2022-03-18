@@ -20,6 +20,17 @@ class RuleTemplate:
                 action_data.add(key,json_action_data.get(key))
             self.action = RuleAction(json_action.get('action'),data=action_data)        
         
+        json_actions = json_template.get('actions')
+        if (json_actions != None) :
+            self.actions = []
+            for json_action in json_actions :
+                json_action_data = json_action.get('data')
+                action_data = RuleData()
+                for key in json_action_data:
+                    action_data.add(key,json_action_data.get(key))
+                action = RuleAction(json_action.get('action'),data=action_data)        
+                self.actions.append(action)
+                
         json_condition =  json_template.get('condition')
         json_expression = json_condition.get('expression')
         self.condition = RuleCondition(expression = json_expression)
