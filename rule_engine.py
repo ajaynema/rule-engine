@@ -11,7 +11,17 @@ class RuleEngine:
         self.rules = []
         self.handlers = {}
         self.templates = {}
-       
+    
+    def prepare_action(self, rule = None,action = None,telemetry = None):
+        for key in action.getData().getData():
+            data_value = action.getData().get(key)
+            if (data_value.startswith("{{")):
+                    variable = data_value.replace("{{","")
+                    variable = variable.replace("}}","")
+                    variable = variable.replace("telemetry.","")
+                    value = telemetry.get(variable)
+                    action.getData().set(variable, value)
+
     def add_rule(self, rule):
         if rule.get_template_name() != None:
             template = self.get_template(rule.get_template_name())
@@ -30,6 +40,7 @@ class RuleEngine:
 
     def get_handler(self, action):
         return self.handlers[action]
+    
     def prepare(self,condition,telemetry):
         if (condition.operator == "EQ" or condition.operator == "GT"  or condition.operator == "LT" ):
            if (condition.right.startswith("{{")):
@@ -94,14 +105,24 @@ class RuleEngine:
         print("Action=PRINT")
 
     def do_action(self,rule,telemetry):
-        handler = self.handlers[rule.action.action]
-        if (handler != None):
-            handler.process(rule,telemetry)
-        elif (rule.action.action == "DISPLAY"):
-            self.do_display(rule,telemetry)
-        elif(rule.action.action == "PRINT"): 
-            self.do_print(rule,telemetry)  
-       
+        if (rule.action != None):
+            handler = self.handlers[rule.action.action]
+            if (handler != None):
+                self.prepare_action(rule=rule, action=rule.action,telemetry=telemetry)
+                handler.process(rule=rule,telemetry=telemetry,action=rule.action)
+            elif (rule.action.action == "DISPLAY"):
+                self.do_display(rule,telemetry)
+            elif(rule.action.action == "PRINT"): 
+                self.do_print(rule,telemetry)  
+        if (rule.actions != None):
+            for action in self.actions:
+                handler = self.handlers[action.action]
+                if (handler != None):
+                    self.prepare_action(rule=rule,action=action,telemetry=telemetry)
+                    handler.process(rule=rule,telemetry=telemetry,action=action)
+                    
+            
+        
 
     def process(self, telemetry):
         matching_rules =  self.get_matching_rules(telemetry)

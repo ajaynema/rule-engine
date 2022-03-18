@@ -5,5 +5,5 @@ class BaseHandler:
     def get_name(self):
         return self.name
         
-    def process(self, rule =None , action=None):
+    def process(self, rule =None , action=None, telemtery=None):
         return "not implemented"

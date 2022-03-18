@@ -45,11 +45,34 @@ class Rule:
                          variable = variable.replace("rule.","")
                          value = self.variables.get(variable)
                          self.scope.set(variable, value)
+        if ((self.action != None) and self.action.getData() != None):
+
+                for key in self.action.getData().getData():
+                    data_value = self.action.getData().get(key)
+                    if (data_value.startswith("{{")):
+                         variable = data_value.replace("{{","")
+                         variable = variable.replace("}}","")
+                         variable = variable.replace("rule.","")
+                         value = self.variables.get(variable)
+                         self.action.getData().set(variable, value)
+        if (self.actions != None):
+                for action in self.actions:
+                    for key in action.getData().getData():
+                        data_value = action.getData.get(key)
+                        if (data_value.startswith("{{")):
+                            variable = data_value.replace("{{","")
+                            variable = variable.replace("}}","")
+                            variable = variable.replace("rule.","")
+                            value = self.variables.get(variable)
+                            action.getData().set(variable, value)
 
 
     def prepare(self):
         self.condition = self.template.condition
-        self.action = self.template.action
+        if (self.template.action != None) :
+            self.action = self.template.action
+        if (self.template.actions != None) :
+            self.actions = self.template.actions
         self.scope = self.template.scope
         self.variable_mete_data = self.template.variable_metadata
         self.replace_variables(self.condition)
@@ -65,6 +88,9 @@ class Rule:
        self.template = None
        self.andrules = None
        self.variables = None
+       self.action = None
+       self.actions = None
+       
        
        if (json_rule != None) :
            self.load_from_json(json_rule)

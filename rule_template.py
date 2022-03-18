@@ -12,26 +12,35 @@ class RuleTemplate:
         for key in json_scope:
             self.scope.add(key,json_scope.get(key))
         json_action = json_template.get('action')
-        self.action = RuleAction(json_action.get('action'))
+        
+        if (json_action != None) :
+            json_action_data = json_action.get('data')
+            action_data = RuleData()
+            for key in json_action_data:
+                action_data.add(key,json_action_data.get(key))
+            self.action = RuleAction(json_action.get('action'),data=action_data)        
+        
         json_condition =  json_template.get('condition')
         json_expression = json_condition.get('expression')
         self.condition = RuleCondition(expression = json_expression)
-        json_variable_metedata = json_template.get('variable_metadata')
-        self.variable_metedata = {}
-        for json_variable in json_variable_metedata :
+        json_variable_metadata = json_template.get('variable_metadata')
+        self.variable_metadata = {}
+        for json_variable in json_variable_metadata :
             variable = RuleVariable(json_variable.get("name"))
             variable.set_type(json_variable.get("type"))
             variable.set_default_value(json_variable.get("default_value"))
-            self.variables[variable.get_name()] = variable
+            self.variable_metadata[variable.get_name()] = variable
 
 
-    def __init__(self, name=None, scope=None, condition=None, action=None, variables=None, json_template=None):
+    def __init__(self, name=None, scope=None, condition=None, action=None,actions=None,variable_metadata = None, variables=None, json_template=None):
        self.name = name
        self.scope = scope
        self.condition = condition
        self.action = action
+       self.actions = actions
        self.json_template = json_template
        self.variables = variables
+       self.variable_metadata = variable_metadata
        if (json_template != None):
         self.load_from_json(json_template)
     

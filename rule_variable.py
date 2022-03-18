@@ -12,9 +12,6 @@ class RuleVariable (object):
     
     def get_default_value(self):
         return self.default_value
-
-    def get_name(self):
-        return self.name
     
     def set_type(self,type):
         self.type = type
