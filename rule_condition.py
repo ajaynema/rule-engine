@@ -1,16 +1,29 @@
 class RuleCondition:
     def prepare_from_expression(self):
-       tokens = self.expression.split(" ")
-       self.right = tokens[0]
-       self.operator = tokens[1]
-       if (tokens[1] == "="):
-            self.operator = "EQ"
-       elif (tokens[1] == ">"):
-            self.operator = "GT"
-       elif (tokens[1] == "<"):
-            self.operator = "LT"
-       self.left = tokens[2]
-       
+      if self.expression.__contains__("and"):
+         conditions = self.expression.split("and")
+         self.andconditions = []
+         for condition in conditions :
+            self.andconditions.append(RuleCondition(expression=condition))
+      if self.expression.__contains__("or"):
+         conditions = self.expression.split("or")
+         self.orconditions = []
+         for condition in conditions :
+            self.orconditions.append(RuleCondition(expression=condition))
+      
+      else:
+         self.expression = self.expression.strip(' ')   
+         tokens = self.expression.split(" ")
+         self.right = tokens[0]
+         self.operator = tokens[1]
+         if (tokens[1] == "="):
+               self.operator = "EQ"
+         elif (tokens[1] == ">"):
+               self.operator = "GT"
+         elif (tokens[1] == "<"):
+               self.operator = "LT"
+         self.left = tokens[2]
+         
     def __init__(self,right=None, operator=None, left=None , 
                   expression=None, andconditions=None, orconditions=None):
        self.expression = expression
@@ -18,10 +31,10 @@ class RuleCondition:
        self.right = right
        self.operator = operator
        self.variables = None
-       if (expression != None) :
-          self.prepare_from_expression()
        self.andconditions = andconditions
        self.orconditions = orconditions
+       if (expression != None) :
+          self.prepare_from_expression()
        if (self.andconditions != None):
           self.operator = "AND"
        if (self.orconditions != None):
