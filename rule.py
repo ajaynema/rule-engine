@@ -3,6 +3,11 @@ from rule_data import RuleData
 class Rule:
     def load_from_json(self, json_rule):
         self.name = json_rule.get("name")
+        self.ruleScope = json_rule.get("ruleScope")
+        self.deviceId = json_rule.get("deviceId")
+        self.deviceGroupId = json_rule.get("deviceGroupId")
+        self.subscriptionId = json_rule.get("subscriptionId")
+        self.ruleScope = json_rule.get("ruleScope")
         self.template_name =  json_rule.get("template")
         json_variables = json_rule.get('variables')
         self.variables = RuleData()
@@ -45,6 +50,13 @@ class Rule:
                          variable = variable.replace("rule.","")
                          value = self.variables.get(variable)
                          self.scope.set(variable, value)
+                if (self.subscriptionId != None) :
+                    self.scope.set("subscriptionId", self.subscriptionId)
+                if (self.deviceId != None):
+                    self.scope.set("deviceId", self.deviceId)
+                if (self.deviceGroupId != None):
+                    self.scope.set("deviceGroupId", self.deviceGroupId)
+
         if ((self.action != None) and self.action.getData() != None):
 
                 for key in self.action.getData().getData():
@@ -90,6 +102,12 @@ class Rule:
        self.variables = None
        self.action = None
        self.actions = None
+       self.ruleScope = None
+       self.deviceId = None
+       self.deviceGroupId = None
+       self.subscriptionId = None
+       
+       
        
        
        if (json_rule != None) :

@@ -15,20 +15,17 @@ Example
 Templete :
     { 
         "name" : "alarm_rule_template",
+        #"template" : "<device template>"
         "scope" : {
-                "deviceType" : "{{rule.deviceType}}"
+            "deviceType" : "pitlid",
         },
         "condition" : { 
-             "expression" :  "{{telemetry.messageId}} = {{rule.messageId}}"
+             "expression" :  "{{telemetry.messageId}} > {{rule.messageId}}"
         },
         "action" : {
             "action" :  "SEND_EMAIL"
         },
         "variable_metedata" : [
-            {
-                "name" : "rule.deviceType",
-                "type" : "string"
-            },
             {
                 "name" : "telemetry.messageId",
                 "type" : "string"
@@ -44,10 +41,14 @@ Rule :
     {
         "name" : "pitlid_301_rule",
         "template" :"alarm_rule_template",
+        "ruleScope" : "DEVICE",  #DEVICE-GROUP, DEVICE 
+        "deviceId" : "12233",
+        "deviceGroupId" : "",
+        "subscriptionId" : "",
         "variables" : {
             "messageId" : "301",
-            "deviceType": "pitlid"
         }
+    }
 }
 
 
@@ -94,3 +95,15 @@ def main():
 
 if __name__=="__main__":
     main()
+
+
+Rule template : 
+1. name the rule
+2. select the rule template
+3. select the scope - device,device group, device template (device type)
+4. based on scope select the device group, device id or device tempate
+5. ask for variables and priority
+6. Summary
+7. Done.
+
+
